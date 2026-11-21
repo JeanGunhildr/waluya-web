@@ -7,6 +7,9 @@
 // require_once 'config/database.php';   (dari root / login.php)
 // ==============================================================================
 
+// Zona waktu aplikasi: WIB (agar tanggal/jam default form & filter "bulan ini" benar)
+date_default_timezone_set('Asia/Jakarta');
+
 $host     = 'localhost';
 $database = 'waluya_db';
 $username = 'root';
@@ -23,6 +26,7 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $username, $password, $options);
+    $pdo->exec("SET time_zone = '+07:00'"); // samakan CURRENT_TIMESTAMP database dengan WIB
 } catch (PDOException $e) {
     die("Koneksi database Waluya gagal: " . $e->getMessage());
 }
