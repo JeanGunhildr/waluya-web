@@ -226,10 +226,8 @@ $sql = "
 $params = [];
 
 if (!empty($search)) {
-    $sql .= " AND (v.nama_lansia LIKE :s1 OR v.nik_lansia LIKE :s2 OR v.nama_kader_pemeriksa LIKE :s3)";
+    $sql .= " AND v.nama_lansia LIKE :s1";
     $params['s1'] = "%$search%";
-    $params['s2'] = "%$search%";
-    $params['s3'] = "%$search%";
 }
 
 if ($filterKondisi !== 'semua') {
@@ -404,7 +402,7 @@ try {
                     <form method="GET" action="riwayat.php" class="search-box-wrapper">
                         <div class="search-input-group">
                             <i data-lucide="search"></i>
-                            <input type="text" name="q" placeholder="Cari nama lansia, NIK, atau nama kader..." value="<?= htmlspecialchars($search) ?>">
+                            <input type="text" name="q" placeholder="Cari berdasarkan nama lansia..." value="<?= htmlspecialchars($search) ?>">
                         </div>
 
                         <select name="kondisi" class="form-select" style="max-width: 180px;" onchange="this.form.submit()">

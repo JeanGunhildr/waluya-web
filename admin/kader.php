@@ -140,16 +140,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // 2. Query Daftar Kader
+$search = trim($_GET['q'] ?? '');
 try {
-    $stmtKader = $pdo->query("
-        SELECT k.id_kader, k.nik, k.jabatan, k.tanggal_bergabung, k.status_kader,
-               u.id_user, u.nama_lengkap, u.email, u.no_hp, u.terakhir_login,
-               p.nama_posyandu, p.id_posyandu
-        FROM kader k
-        JOIN users u ON k.id_user = u.id_user
-        JOIN posyandu p ON k.id_posyandu = p.id_posyandu
-        ORDER BY k.id_kader DESC
-    ");
+    if (!empty($search)) {
+        $stmtKader = $pdo->prepare("
+            SELECT k.id_kader, k.nik, k.jabatan, k.tanggal_bergabung, k.status_kader,
+                   u.id_user, u.nama_lengkap, u.email, u.no_hp, u.terakhir_login,
+                   p.nama_posyandu, p.id_posyandu
+            FROM kader k
+            JOIN users u ON k.id_user = u.id_user
+            JOIN posyandu p ON k.id_posyandu = p.id_posyandu
+            WHERE u.nama_lengkap LIKE :q
+            ORDER BY k.id_kader DESC
+        ");
+        $stmtKader->execute(['q' => "%$search%"]);
+    } else {
+        $stmtKader = $pdo->query("
+            SELECT k.id_kader, k.nik, k.jabatan, k.tanggal_bergabung, k.status_kader,
+                   u.id_user, u.nama_lengkap, u.email, u.no_hp, u.terakhir_login,
+                   p.nama_posyandu, p.id_posyandu
+            FROM kader k
+            JOIN users u ON k.id_user = u.id_user
+            JOIN posyandu p ON k.id_posyandu = p.id_posyandu
+            ORDER BY k.id_kader DESC
+        ");
+    }
     $kaderList = $stmtKader->fetchAll();
 } catch (PDOException $e) {
     $kaderList = [];
@@ -230,10 +245,17 @@ try {
 
                 <div class="card">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-                        <div>
-                            <h3 style="font-size: 16px; font-weight: 700; color: #1E293B;">Kader Posyandu Aktif</h3>
-                            <p style="font-size: 13px; color: #64748B;">Total <?= count($kaderList) ?> kader terdaftar dalam sistem Waluya.</p>
-                        </div>
+                        <form method="GET" style="display: flex; gap: 10px; flex: 1; max-width: 480px;">
+                            <div class="search-input-group">
+                                <i data-lucide="search"></i>
+                                <input type="text" name="q" placeholder="Cari berdasarkan nama kader..." value="<?= htmlspecialchars($search) ?>">
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Cari</button>
+                            <?php if (!empty($search)): ?>
+                                <a href="kader.php" class="btn btn-secondary" title="Reset pencarian">Reset</a>
+                            <?php endif; ?>
+                        </form>
+
                         <button type="button" class="btn btn-primary" onclick="openTambahKaderModal()">
                             <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
                             <span>Tambah Kader Baru</span>

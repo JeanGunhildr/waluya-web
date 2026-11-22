@@ -196,11 +196,8 @@ $sql = "
 $params = [];
 
 if (!empty($search)) {
-    $sql .= " AND (p.nama_posyandu LIKE :s1 OR p.kelurahan LIKE :s2 OR p.kecamatan LIKE :s3 OR p.puskesmas_pembina LIKE :s4)";
+    $sql .= " AND p.nama_posyandu LIKE :s1";
     $params['s1'] = "%$search%";
-    $params['s2'] = "%$search%";
-    $params['s3'] = "%$search%";
-    $params['s4'] = "%$search%";
 }
 
 if ($filterStatus !== 'semua') {
@@ -371,7 +368,7 @@ try {
                     <form method="GET" action="posyandu.php" class="search-box-wrapper">
                         <div class="search-input-group">
                             <i data-lucide="search"></i>
-                            <input type="text" name="q" placeholder="Cari nama posyandu, kelurahan, kecamatan, puskesmas..." value="<?= htmlspecialchars($search) ?>">
+                            <input type="text" name="q" placeholder="Cari nama posyandu..." value="<?= htmlspecialchars($search) ?>">
                         </div>
 
                         <select name="status" class="form-select" style="max-width: 180px;" onchange="this.form.submit()">

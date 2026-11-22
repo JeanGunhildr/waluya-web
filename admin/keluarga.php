@@ -116,7 +116,7 @@ try {
                    (SELECT COUNT(*) FROM lansia l WHERE l.id_keluarga = k.id_keluarga) AS total_lansia
             FROM users u
             JOIN keluarga k ON u.id_user = k.id_user
-            WHERE u.role = 'keluarga' AND (u.nama_lengkap LIKE :q OR k.nik LIKE :q OR u.email LIKE :q)
+            WHERE u.role = 'keluarga' AND u.nama_lengkap LIKE :q
             ORDER BY u.id_user DESC
         ");
         $stmt->execute(['q' => "%$search%"]);
@@ -207,7 +207,7 @@ try {
                     <form method="GET" style="display: flex; gap: 10px; flex: 1; max-width: 480px;">
                         <div class="search-input-group">
                             <i data-lucide="search"></i>
-                            <input type="text" name="q" placeholder="Cari berdasarkan Nama, NIK, atau Email..." value="<?= htmlspecialchars($search) ?>">
+                            <input type="text" name="q" placeholder="Cari berdasarkan nama keluarga..." value="<?= htmlspecialchars($search) ?>">
                         </div>
                         <button type="submit" class="btn btn-secondary">Cari</button>
                         <?php if (!empty($search)): ?>

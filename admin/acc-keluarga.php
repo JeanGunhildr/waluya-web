@@ -89,8 +89,9 @@ try {
 }
 
 // 4. Query Data Sesuai Tab yang Dipilih
+$search = trim($_GET['q'] ?? '');
 try {
-    $stmt = $pdo->prepare("
+    $sql = "
         SELECT u.id_user, u.nama_lengkap, u.email, u.no_hp, u.status_akun, u.created_at AS waktu_daftar, 
                u.tanggal_acc, u.catatan_acc, u_admin.nama_lengkap AS nama_admin,
                k.nik, k.alamat_domisili, k.rt, k.rw, k.pekerjaan, k.kontak_darurat
@@ -98,9 +99,15 @@ try {
         LEFT JOIN keluarga k ON u.id_user = k.id_user
         LEFT JOIN users u_admin ON u.id_admin_acc = u_admin.id_user
         WHERE u.role = 'keluarga' AND u.status_akun = :status
-        ORDER BY u.created_at DESC
-    ");
-    $stmt->execute(['status' => $current_tab]);
+    ";
+    $params = ['status' => $current_tab];
+    if (!empty($search)) {
+        $sql .= " AND u.nama_lengkap LIKE :q";
+        $params['q'] = "%$search%";
+    }
+    $sql .= " ORDER BY u.created_at DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
     $usersList = $stmt->fetchAll();
 } catch (PDOException $e) {
     $usersList = [];
@@ -193,6 +200,21 @@ try {
                         <span>Pendaftaran Ditolak</span>
                         <span class="badge" style="background:#F1F5F9; color:#334155; font-size:11px;"><?= $countDitolak ?></span>
                     </a>
+                </div>
+
+                <!-- Pencarian Keluarga -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <form method="GET" style="display: flex; gap: 10px; flex: 1; max-width: 480px;">
+                        <input type="hidden" name="tab" value="<?= htmlspecialchars($current_tab) ?>">
+                        <div class="search-input-group">
+                            <i data-lucide="search"></i>
+                            <input type="text" name="q" placeholder="Cari berdasarkan nama pemohon..." value="<?= htmlspecialchars($search) ?>">
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Cari</button>
+                        <?php if (!empty($search)): ?>
+                            <a href="acc-keluarga.php?tab=<?= urlencode($current_tab) ?>" class="btn btn-secondary">Reset</a>
+                        <?php endif; ?>
+                    </form>
                 </div>
 
                 <!-- Tabel Akun Sesuai Tab -->

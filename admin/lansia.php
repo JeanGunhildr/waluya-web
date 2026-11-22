@@ -173,7 +173,7 @@ try {
             JOIN posyandu p ON l.id_posyandu = p.id_posyandu
             LEFT JOIN keluarga kel ON l.id_keluarga = kel.id_keluarga
             LEFT JOIN users u_kel ON kel.id_user = u_kel.id_user
-            WHERE l.nama_lengkap LIKE :q OR l.nik LIKE :q OR l.alamat LIKE :q
+            WHERE l.nama_lengkap LIKE :q
             ORDER BY l.id_lansia DESC
         ");
         $stmtList->execute(['q' => "%$search%"]);
@@ -283,7 +283,7 @@ try {
                         <form method="GET" style="display: flex; gap: 10px; flex: 1; max-width: 480px;">
                             <div class="search-input-group">
                                 <i data-lucide="search"></i>
-                                <input type="text" name="q" placeholder="Cari berdasarkan Nama, NIK, atau Alamat..." value="<?= htmlspecialchars($search) ?>">
+                                <input type="text" name="q" placeholder="Cari berdasarkan nama lansia..." value="<?= htmlspecialchars($search) ?>">
                             </div>
                             <button type="submit" class="btn btn-secondary">Cari</button>
                             <?php if (!empty($search)): ?>

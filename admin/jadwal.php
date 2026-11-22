@@ -216,10 +216,8 @@ $sql = "
 $params = [];
 
 if (!empty($search)) {
-    $sql .= " AND (j.judul LIKE :s1 OR j.lokasi LIKE :s2 OR p.nama_posyandu LIKE :s3)";
+    $sql .= " AND j.judul LIKE :s1";
     $params['s1'] = "%$search%";
-    $params['s2'] = "%$search%";
-    $params['s3'] = "%$search%";
 }
 
 if ($filterPosyandu > 0) {
@@ -396,7 +394,7 @@ try {
                     <form method="GET" action="jadwal.php" class="search-box-wrapper">
                         <div class="search-input-group">
                             <i data-lucide="search"></i>
-                            <input type="text" name="q" placeholder="Cari nama agenda, lokasi, atau posyandu..." value="<?= htmlspecialchars($search) ?>">
+                            <input type="text" name="q" placeholder="Cari nama agenda kegiatan..." value="<?= htmlspecialchars($search) ?>">
                         </div>
 
                         <select name="posyandu" class="form-select" style="max-width: 180px;" onchange="this.form.submit()">
