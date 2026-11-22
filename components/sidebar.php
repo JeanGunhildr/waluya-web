@@ -99,6 +99,10 @@ $role_info = $role_labels[$current_role] ?? $role_labels['keluarga'];
                 <span class="sidebar-link-icon"><i data-lucide="building-2"></i></span>
                 <span class="sidebar-link-text">Unit Posyandu</span>
             </a>
+            <a href="jadwal.php" class="sidebar-link <?= ($active_menu === 'jadwal') ? 'active' : '' ?>">
+                <span class="sidebar-link-icon"><i data-lucide="calendar"></i></span>
+                <span class="sidebar-link-text">Jadwal Kegiatan</span>
+            </a>
 
         <?php elseif ($current_role === 'kader'): ?>
             <!-- ================= MENU UNTUK KADER ================= -->

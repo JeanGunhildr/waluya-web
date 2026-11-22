@@ -23,6 +23,7 @@ USE `waluya_db`;
 -- ------------------------------------------------------------------------------
 -- Hapus Tabel Lama Jika Ada (Urutan dari tabel anak ke tabel induk)
 -- ------------------------------------------------------------------------------
+DROP TABLE IF EXISTS `jadwal_posyandu`;
 DROP TABLE IF EXISTS `riwayat_kesehatan`;
 DROP TABLE IF EXISTS `pemeriksaan`;
 DROP TABLE IF EXISTS `lansia`;
@@ -200,6 +201,32 @@ CREATE TABLE `riwayat_kesehatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Pencatatan riwayat kesehatan lansia oleh kader/admin';
 
 -- ------------------------------------------------------------------------------
+-- 7b. Tabel: jadwal_posyandu
+-- Agenda kegiatan posyandu (pemeriksaan rutin, senam, penyuluhan, dll)
+-- Hak Akses: Kader = CRUD (untuk posyandunya), Keluarga = Read
+-- ------------------------------------------------------------------------------
+CREATE TABLE `jadwal_posyandu` (
+  `id_jadwal` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_posyandu` INT UNSIGNED NOT NULL,
+  `id_kader` INT UNSIGNED NULL COMMENT 'Kader yang membuat jadwal',
+  `judul` VARCHAR(150) NOT NULL,
+  `jenis_kegiatan` ENUM('Pemeriksaan Rutin', 'Senam Lansia', 'Penyuluhan', 'Kunjungan Rumah', 'Lainnya') NOT NULL DEFAULT 'Pemeriksaan Rutin',
+  `tanggal` DATE NOT NULL,
+  `jam_mulai` TIME NOT NULL,
+  `jam_selesai` TIME NULL,
+  `lokasi` VARCHAR(255) NOT NULL,
+  `deskripsi` TEXT NULL,
+  `target_peserta` INT UNSIGNED NULL COMMENT 'Perkiraan jumlah lansia yang diundang',
+  `status` ENUM('terjadwal', 'selesai', 'dibatalkan') NOT NULL DEFAULT 'terjadwal',
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_jadwal`),
+  INDEX `idx_jadwal_tanggal` (`tanggal`),
+  CONSTRAINT `fk_jadwal_posyandu` FOREIGN KEY (`id_posyandu`) REFERENCES `posyandu` (`id_posyandu`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_jadwal_kader` FOREIGN KEY (`id_kader`) REFERENCES `kader` (`id_kader`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Agenda kegiatan posyandu lansia';
+
+-- ------------------------------------------------------------------------------
 -- 8. View: v_antrean_acc_keluarga
 -- Mempermudah Admin melihat daftar anggota keluarga yang menunggu ACC
 -- ------------------------------------------------------------------------------
@@ -304,5 +331,12 @@ INSERT INTO `riwayat_kesehatan` (`id_riwayat`, `id_lansia`, `id_kader`, `tanggal
 (1, 1, 1, '2026-10-15', '08:45:00', 62.50, 165.00, 22.96, 'Normal', 120, 80, 'Normal', 78, 36.50, 110, 'Normal', 175, 'Normal', 5.40, 'Normal', 'Tidak ada keluhan fisik', 'Pertahankan pola jalan pagi dan minum air putih', 'Aman / Sehat', 'Tidak'),
 (2, 1, 1, '2026-11-15', '09:00:00', 62.00, 165.00, 22.77, 'Normal', 122, 82, 'Normal', 76, 36.40, 115, 'Normal', 180, 'Normal', 5.60, 'Normal', 'Sedikit pegal di leher', 'Dianjurkan istirahat cukup dan peregangan ringan', 'Aman / Sehat', 'Tidak'),
 (3, 2, 1, '2026-11-15', '09:30:00', 58.00, 152.00, 25.10, 'Kelebihan BB', 138, 88, 'Pra-hipertensi', 82, 36.60, 128, 'Normal', 225, 'Tinggi', 6.80, 'Tinggi', 'Sendi jari tangan sering kaku pada pagi hari', 'Konseling pembatasan makanan santan dan jeroan', 'Perlu Perhatian', 'Tidak');
+
+-- G. Data Jadwal Posyandu
+INSERT INTO `jadwal_posyandu` (`id_jadwal`, `id_posyandu`, `id_kader`, `judul`, `jenis_kegiatan`, `tanggal`, `jam_mulai`, `jam_selesai`, `lokasi`, `deskripsi`, `target_peserta`, `status`) VALUES
+(1, 1, 1, 'Posyandu Lansia Bulanan - November', 'Pemeriksaan Rutin', '2026-11-15', '08:00:00', '11:00:00', 'Balai Warga RW 05', 'Penimbangan, tensi, cek gula darah, kolesterol, dan asam urat.', 40, 'selesai'),
+(2, 1, 1, 'Senam Lansia Bugar', 'Senam Lansia', '2026-11-28', '06:30:00', '08:00:00', 'Lapangan RW 05', 'Senam pagi bersama instruktur dari Puskesmas Sukamaju. Mohon membawa botol minum.', 35, 'terjadwal'),
+(3, 1, 1, 'Penyuluhan Gizi Seimbang untuk Lansia', 'Penyuluhan', '2026-12-05', '09:00:00', '10:30:00', 'Balai Warga RW 05', 'Materi: pembatasan garam, gula, dan lemak jenuh.', 30, 'terjadwal'),
+(4, 1, 1, 'Posyandu Lansia Bulanan - Desember', 'Pemeriksaan Rutin', '2026-12-15', '08:00:00', '11:00:00', 'Balai Warga RW 05', NULL, 40, 'terjadwal');
 
 SET FOREIGN_KEY_CHECKS = 1;
