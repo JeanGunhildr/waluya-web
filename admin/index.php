@@ -163,7 +163,8 @@ try {
     <!-- Google Fonts & Lucide Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- CSS Dashboard -->
@@ -183,7 +184,8 @@ try {
             <!-- Topbar Header -->
             <header class="dashboard-topbar">
                 <div class="topbar-left">
-                    <button type="button" class="topbar-mobile-toggle" onclick="toggleSidebar(true)" aria-label="Buka Menu Sidebar">
+                    <button type="button" class="topbar-mobile-toggle" onclick="toggleSidebar(true)"
+                        aria-label="Buka Menu Sidebar">
                         <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
                     </button>
                     <h2 class="topbar-page-title">Dashboard Administrator</h2>
@@ -207,23 +209,27 @@ try {
 
                 <!-- Header Judul Bersih Tanpa Background Hijau -->
                 <div class="welcome-banner">
-                    <h1 class="welcome-title">Selamat Datang, <?= htmlspecialchars($_SESSION['nama'] ?? 'Administrator') ?>!</h1>
+                    <h1 class="welcome-title">Selamat Datang,
+                        <?= htmlspecialchars($_SESSION['nama'] ?? 'Administrator') ?>!</h1>
                     <p class="welcome-subtitle">
-                        Pusat kendali dan pengelolaan sistem Posyandu Lansia Waluya. Pantau antrean verifikasi keluarga, statistik warga binaan, data kader, dan riwayat rekam medis.
+                        Pusat kendali dan pengelolaan sistem Posyandu Lansia Waluya. Pantau antrean verifikasi keluarga,
+                        statistik warga binaan, data kader, dan riwayat rekam medis.
                     </p>
                 </div>
 
                 <!-- Notifikasi Feedback Pesan -->
                 <?php if (!empty($alert_msg)): ?>
-                    <div class="alert-banner alert-banner-<?= $alert_type ?>">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <i data-lucide="<?= $alert_type === 'success' ? 'check-circle' : 'alert-circle' ?>" style="width: 18px; height: 18px;"></i>
-                            <span><?= htmlspecialchars($alert_msg) ?></span>
-                        </div>
-                        <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; cursor:pointer; color:inherit;">
-                            <i data-lucide="x" style="width: 16px; height: 16px;"></i>
-                        </button>
+                <div class="alert-banner alert-banner-<?= $alert_type ?>">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i data-lucide="<?= $alert_type === 'success' ? 'check-circle' : 'alert-circle' ?>"
+                            style="width: 18px; height: 18px;"></i>
+                        <span><?= htmlspecialchars($alert_msg) ?></span>
                     </div>
+                    <button type="button" onclick="this.parentElement.remove()"
+                        style="background:none; border:none; cursor:pointer; color:inherit;">
+                        <i data-lucide="x" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
                 <?php endif; ?>
 
                 <!-- 1. KPI Statistics Cards Grid -->
@@ -246,7 +252,8 @@ try {
                         <div class="kpi-details">
                             <span class="kpi-value"><?= number_format($totalPending) ?></span>
                             <span class="kpi-label">Menunggu ACC</span>
-                            <span class="kpi-subtext"><?= $totalPending > 0 ? 'Perlu tindakan verifikasi' : 'Tidak ada antrean' ?></span>
+                            <span
+                                class="kpi-subtext"><?= $totalPending > 0 ? 'Perlu tindakan verifikasi' : 'Tidak ada antrean' ?></span>
                         </div>
                     </div>
 
@@ -284,271 +291,89 @@ try {
                     </div>
 
                     <?php if (count($pendingQueue) > 0): ?>
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Lengkap</th>
-                                        <th>Kontak (Email / No HP)</th>
-                                        <th>NIK KTP & Domisili</th>
-                                        <th>Waktu Daftar</th>
-                                        <th style="text-align: right;">Aksi Persetujuan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($pendingQueue as $p): 
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Lengkap</th>
+                                    <th>Kontak (Email / No HP)</th>
+                                    <th>NIK KTP & Domisili</th>
+                                    <th>Waktu Daftar</th>
+                                    <th style="text-align: right;">Aksi Persetujuan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($pendingQueue as $p): 
                                         $cleanNama = preg_replace('/\s*\(Menunggu ACC\)$/i', '', $p['nama_lengkap']);
                                         $domisili = htmlspecialchars($p['alamat_domisili'] ?? '-');
                                         $rt = htmlspecialchars($p['rt'] ?? '-');
                                         $rw = htmlspecialchars($p['rw'] ?? '-');
                                         $alamatText = (stripos($domisili, 'RT') !== false) ? $domisili : "$domisili (RT $rt / RW $rw)";
                                     ?>
-                                        <tr>
-                                            <td>
-                                                <div style="font-weight: 700; color: #1E293B; font-size: 13.5px;"><?= htmlspecialchars($cleanNama) ?></div>
-                                                <div style="margin-top: 4px;">
-                                                    <span class="badge badge-pending">Menunggu ACC</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div style="font-size: 13px; color: #334155; font-weight: 500;"><?= htmlspecialchars($p['email']) ?></div>
-                                                <div style="font-size: 12px; color: #64748B; margin-top: 2px;"><?= htmlspecialchars($p['no_hp']) ?></div>
-                                            </td>
-                                            <td>
-                                                <div style="font-size: 13px; font-weight: 700; color: #1E293B;">NIK: <?= htmlspecialchars($p['nik'] ?? '-') ?></div>
-                                                <div style="font-size: 12px; color: #64748B; margin-top: 2px;"><?= $alamatText ?></div>
-                                            </td>
-                                            <td style="font-size: 12.5px; color: #64748B;">
-                                                <div style="font-weight: 600; color: #334155;"><?= date('d M Y', strtotime($p['waktu_mendaftar'])) ?></div>
-                                                <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;"><?= date('H:i', strtotime($p['waktu_mendaftar'])) ?> WIB</div>
-                                            </td>
-                                            <td style="text-align: right;">
-                                                <div class="table-actions" style="justify-content: flex-end;">
-                                                    <!-- Form Setujui (ACC) -->
-                                                    <form method="POST" style="display: inline;" onsubmit="return confirm('Apakah Anda yakin ingin menyetujui akun keluarga ini?')">
-                                                        <input type="hidden" name="action" value="approve_keluarga">
-                                                        <input type="hidden" name="id_user" value="<?= $p['id_user'] ?>">
-                                                        <button type="submit" class="btn btn-sm btn-success" title="Setujui pendaftaran ini">
-                                                            <i data-lucide="check" style="width: 14px; height: 14px;"></i>
-                                                            <span>Setujui (ACC)</span>
-                                                        </button>
-                                                    </form>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 700; color: #1E293B; font-size: 13.5px;">
+                                            <?= htmlspecialchars($cleanNama) ?></div>
+                                        <div style="margin-top: 4px;">
+                                            <span class="badge badge-pending">Menunggu ACC</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="font-size: 13px; color: #334155; font-weight: 500;">
+                                            <?= htmlspecialchars($p['email']) ?></div>
+                                        <div style="font-size: 12px; color: #64748B; margin-top: 2px;">
+                                            <?= htmlspecialchars($p['no_hp']) ?></div>
+                                    </td>
+                                    <td>
+                                        <div style="font-size: 13px; font-weight: 700; color: #1E293B;">NIK:
+                                            <?= htmlspecialchars($p['nik'] ?? '-') ?></div>
+                                        <div style="font-size: 12px; color: #64748B; margin-top: 2px;">
+                                            <?= $alamatText ?></div>
+                                    </td>
+                                    <td style="font-size: 12.5px; color: #64748B;">
+                                        <div style="font-weight: 600; color: #334155;">
+                                            <?= date('d M Y', strtotime($p['waktu_mendaftar'])) ?></div>
+                                        <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">
+                                            <?= date('H:i', strtotime($p['waktu_mendaftar'])) ?> WIB</div>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <div class="table-actions" style="justify-content: flex-end;">
+                                            <!-- Form Setujui (ACC) -->
+                                            <form method="POST" style="display: inline;"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menyetujui akun keluarga ini?')">
+                                                <input type="hidden" name="action" value="approve_keluarga">
+                                                <input type="hidden" name="id_user" value="<?= $p['id_user'] ?>">
+                                                <button type="submit" class="btn btn-sm btn-success"
+                                                    title="Setujui pendaftaran ini">
+                                                    <i data-lucide="check" style="width: 14px; height: 14px;"></i>
+                                                    <span>Setujui (ACC)</span>
+                                                </button>
+                                            </form>
 
-                                                    <!-- Tombol Buka Modal Tolak -->
-                                                    <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                            onclick="openRejectModal(<?= $p['id_user'] ?>, '<?= htmlspecialchars(addslashes($cleanNama)) ?>')"
-                                                            title="Tolak pendaftaran">
-                                                        <i data-lucide="x" style="width: 14px; height: 14px;"></i>
-                                                        <span>Tolak</span>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php else: ?>
-                        <div style="padding: 24px; text-align: center; color: #047857; background: #ECFDF5; border-radius: 8px; border: 1px solid #A7F3D0;">
-                            <i data-lucide="check-circle" style="width: 24px; height: 24px; display: inline-block; vertical-align: -4px; margin-right: 6px;"></i>
-                            <strong>Tidak Ada Antrean Pendaftaran</strong> — Semua permohonan akun keluarga telah diverifikasi dan disetujui.
-                        </div>
-                    <?php endif; ?>
-                </div>
-
-                <!-- 3. FITUR UTAMA 2: PEMERIKSAAN KESEHATAN TERBARU (MONITORING REKAM MEDIS) -->
-                <div class="card" id="section-riwayat">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i data-lucide="activity" style="width: 18px; height: 18px; color: var(--primary);"></i>
-                            Pemeriksaan Fisik & Skrining Lansia Terbaru
-                        </h3>
-                        <a href="riwayat.php" class="btn btn-sm btn-secondary">Lihat Semua Rekam Medis (RUD)</a>
+                                            <!-- Tombol Buka Modal Tolak -->
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="openRejectModal(<?= $p['id_user'] ?>, '<?= htmlspecialchars(addslashes($cleanNama)) ?>')"
+                                                title="Tolak pendaftaran">
+                                                <i data-lucide="x" style="width: 14px; height: 14px;"></i>
+                                                <span>Tolak</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
-
-                    <?php if (count($riwayatTerbaru) > 0): ?>
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>Nama Lansia</th>
-                                        <th>Tekanan Darah</th>
-                                        <th>IMT & Gula Darah</th>
-                                        <th>Status Risiko</th>
-                                        <th>Kader Pemeriksa</th>
-                                        <th style="text-align: right;">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($riwayatTerbaru as $r): ?>
-                                        <tr>
-                                            <td style="font-size: 13px; font-weight: 600; color: #475569;">
-                                                <?= date('d M Y', strtotime($r['tanggal_pemeriksaan'])) ?>
-                                            </td>
-                                            <td>
-                                                <div style="font-weight: 700; color: #1E293B; font-size: 13.5px;"><?= htmlspecialchars($r['nama_lansia']) ?></div>
-                                                <span style="font-size: 12px; color: #64748B;"><?= $r['usia_lansia'] ?> Tahun</span>
-                                            </td>
-                                            <td>
-                                                <div style="font-weight: 700; color: #1E293B;">
-                                                    <?= $r['tensi_sistolik'] ?>/<?= $r['tensi_diastolik'] ?> <small style="color:#64748B;">mmHg</small>
-                                                </div>
-                                                <div style="margin-top: 3px;">
-                                                    <span class="badge <?= $r['status_tensi'] === 'Normal' ? 'badge-active' : 'badge-danger' ?>" style="font-size: 10.5px; padding: 2px 7px;">
-                                                        <?= htmlspecialchars($r['status_tensi']) ?>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div style="font-size: 13px;">IMT: <strong><?= $r['imt'] ?></strong> <span style="font-size: 11.5px; color: #64748B;">(<?= htmlspecialchars($r['status_imt']) ?>)</span></div>
-                                                <div style="font-size: 12px; color: #64748B; margin-top: 2px;">Gula Darah: <?= $r['gula_darah'] ? $r['gula_darah'] . ' mg/dL' : '-' ?></div>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    $kondisiClass = 'badge-active';
-                                                    if ($r['status_kondisi'] === 'Risiko Tinggi') {
-                                                        $kondisiClass = 'badge-danger';
-                                                    } elseif ($r['status_kondisi'] === 'Perlu Perhatian') {
-                                                        $kondisiClass = 'badge-pending';
-                                                    }
-                                                ?>
-                                                <span class="badge <?= $kondisiClass ?>" style="font-weight: 700;">
-                                                    <?= htmlspecialchars($r['status_kondisi']) ?>
-                                                </span>
-                                            </td>
-                                            <td style="font-size: 13px; color: #475569;">
-                                                <?= htmlspecialchars($r['nama_kader'] ?? 'Kader Posyandu') ?>
-                                            </td>
-                                            <td style="text-align: right;">
-                                                <a href="riwayat.php?q=<?= urlencode($r['nama_lansia']) ?>" class="btn btn-sm btn-secondary" title="Buka Detail Rekam Medis">
-                                                    <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
-                                                    <span>Detail</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
                     <?php else: ?>
-                        <p style="text-align: center; color: #64748B; padding: 20px;">Belum ada data pemeriksaan kesehatan yang tercatat.</p>
-                    <?php endif; ?>
-                </div>
-
-                <!-- 4. FITUR UTAMA 3: DAFTAR WARGA LANSIA & AKSI CEPAT -->
-                <div class="card" id="section-lansia">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i data-lucide="user-plus" style="width: 18px; height: 18px; color: var(--primary);"></i>
-                            Data Warga Lansia Terdaftar
-                        </h3>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="lansia.php" class="btn btn-sm btn-primary">
-                                <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                                <span>Tambah Lansia</span>
-                            </a>
-                            <a href="lansia.php" class="btn btn-sm btn-secondary">Kelola Semua</a>
-                        </div>
+                    <div
+                        style="padding: 24px; text-align: center; color: #047857; background: #ECFDF5; border-radius: 8px; border: 1px solid #A7F3D0;">
+                        <i data-lucide="check-circle"
+                            style="width: 24px; height: 24px; display: inline-block; vertical-align: -4px; margin-right: 6px;"></i>
+                        <strong>Tidak Ada Antrean Pendaftaran</strong> — Semua permohonan akun keluarga telah
+                        diverifikasi dan disetujui.
                     </div>
-
-                    <?php if (count($lansiaTerbaru) > 0): ?>
-                        <div class="table-responsive">
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>NIK</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Usia</th>
-                                        <th>Unit Posyandu</th>
-                                        <th>Penanggung Jawab (Wali)</th>
-                                        <th style="text-align: right;">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($lansiaTerbaru as $l): ?>
-                                        <tr>
-                                            <td style="font-family: monospace; font-size: 13px; color: #475569;">
-                                                <?= htmlspecialchars($l['nik']) ?>
-                                            </td>
-                                            <td style="font-weight: 700; color: #1E293B; font-size: 13.5px;">
-                                                <?= htmlspecialchars($l['nama_lengkap']) ?>
-                                            </td>
-                                            <td>
-                                                <?= $l['jenis_kelamin'] === 'L' ? 'Laki-laki' : 'Perempuan' ?>
-                                            </td>
-                                            <td>
-                                                <?= $l['usia'] ?> Tahun
-                                            </td>
-                                            <td>
-                                                <span class="badge" style="background:#F1F5F9; color:#334155; font-weight: 600;">
-                                                    <?= htmlspecialchars($l['nama_posyandu']) ?>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <?= htmlspecialchars($l['nama_wali'] ?? 'Mandiri / Tanpa Wali') ?>
-                                            </td>
-                                            <td style="text-align: right;">
-                                                <a href="lansia.php?q=<?= urlencode($l['nik']) ?>" class="btn btn-sm btn-secondary" title="Kelola Lansia">
-                                                    <i data-lucide="edit-3" style="width: 13px; height: 13px;"></i>
-                                                    <span>Ubah</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php else: ?>
-                        <p style="text-align: center; color: #64748B; padding: 20px;">Belum ada data warga lansia yang terdaftar.</p>
                     <?php endif; ?>
                 </div>
-
-                <!-- 5. PANEL PINTASAN MENU CEPAT ADMINISTRATOR -->
-                <h3 style="font-size: 16px; font-weight: 700; color: #1E293B; margin: 28px 0 16px; display: flex; align-items: center; gap: 8px;">
-                    <i data-lucide="navigation" style="width: 18px; height: 18px; color: var(--primary);"></i>
-                    Pintasan Pengelolaan Sistem
-                </h3>
-
-                <div class="features-grid">
-                    <a href="acc-keluarga.php" class="feature-box" style="text-decoration: none; text-align: left; display: block;">
-                        <div class="feature-icon-wrapper" style="background: #FEF3C7; color: #D97706;">
-                            <i data-lucide="user-check" style="width: 22px; height: 22px;"></i>
-                        </div>
-                        <h4 class="feature-title">Persetujuan Akun Keluarga</h4>
-                        <p class="feature-desc">Verifikasi akun baru anggota keluarga yang mendaftar secara mandiri.</p>
-                        <span class="feature-tag">Buka Halaman ACC</span>
-                    </a>
-
-                    <a href="lansia.php" class="feature-box" style="text-decoration: none; text-align: left; display: block;">
-                        <div class="feature-icon-wrapper" style="background: #ECFDF5; color: var(--primary);">
-                            <i data-lucide="user-plus" style="width: 22px; height: 22px;"></i>
-                        </div>
-                        <h4 class="feature-title">Kelola Warga Lansia (CRUD)</h4>
-                        <p class="feature-desc">Tambah, ubah identitas, hapus, dan kelola hubungan lansia dengan keluarga.</p>
-                        <span class="feature-tag">Buka CRUD Lansia</span>
-                    </a>
-
-                    <a href="kader.php" class="feature-box" style="text-decoration: none; text-align: left; display: block;">
-                        <div class="feature-icon-wrapper" style="background: #E0F2FE; color: #0284C7;">
-                            <i data-lucide="shield" style="width: 22px; height: 22px;"></i>
-                        </div>
-                        <h4 class="feature-title">Kelola Kader Posyandu (CRUD)</h4>
-                        <p class="feature-desc">Pendaftaran kader baru, penempatan posyandu, dan penetapan jabatan.</p>
-                        <span class="feature-tag">Buka CRUD Kader</span>
-                    </a>
-
-                    <a href="riwayat.php" class="feature-box" style="text-decoration: none; text-align: left; display: block;">
-                        <div class="feature-icon-wrapper" style="background: #FEE2E2; color: #DC2626;">
-                            <i data-lucide="activity" style="width: 22px; height: 22px;"></i>
-                        </div>
-                        <h4 class="feature-title">Riwayat Rekam Medis (RUD)</h4>
-                        <p class="feature-desc">Pantau seluruh hasil cek kesehatan, ubah hasil ukur, dan hapus pencatatan.</p>
-                        <span class="feature-tag">Buka Rekam Medis</span>
-                    </a>
-                </div>
-
             </main>
 
         </div>
@@ -569,12 +394,14 @@ try {
                     <input type="hidden" name="action" value="reject_keluarga">
                     <input type="hidden" name="id_user" id="rejectUserId">
                     <p style="font-size: 13.5px; color: #475569; margin-bottom: 14px;">
-                        Anda akan menolak permohonan akun atas nama <strong id="rejectUserName" style="color:#1E293B;"></strong>.
+                        Anda akan menolak permohonan akun atas nama <strong id="rejectUserName"
+                            style="color:#1E293B;"></strong>.
                     </p>
                     <div class="form-group">
-                        <label class="form-label" for="alasan_penolakan">Alasan Penolakan <span style="color:#EF4444;">*</span></label>
+                        <label class="form-label" for="alasan_penolakan">Alasan Penolakan <span
+                                style="color:#EF4444;">*</span></label>
                         <textarea name="alasan_penolakan" id="alasan_penolakan" class="form-textarea" rows="3" required
-                                  placeholder="Contoh: NIK tidak terdaftar di wilayah RT/RW binaan Posyandu ini atau foto dokumen tidak jelas."></textarea>
+                            placeholder="Contoh: NIK tidak terdaftar di wilayah RT/RW binaan Posyandu ini atau foto dokumen tidak jelas."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -586,17 +413,17 @@ try {
     </div>
 
     <script>
-        lucide.createIcons();
+    lucide.createIcons();
 
-        function openRejectModal(userId, userName) {
-            document.getElementById('rejectUserId').value = userId;
-            document.getElementById('rejectUserName').textContent = userName;
-            document.getElementById('rejectModal').classList.add('active');
-        }
+    function openRejectModal(userId, userName) {
+        document.getElementById('rejectUserId').value = userId;
+        document.getElementById('rejectUserName').textContent = userName;
+        document.getElementById('rejectModal').classList.add('active');
+    }
 
-        function closeRejectModal() {
-            document.getElementById('rejectModal').classList.remove('active');
-        }
+    function closeRejectModal() {
+        document.getElementById('rejectModal').classList.remove('active');
+    }
     </script>
 </body>
 
