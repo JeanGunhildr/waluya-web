@@ -28,7 +28,7 @@
         <div class="container navbar-inner">
             <a href="#beranda" class="navbar-logo">
                 <span class="logo-icon">
-                    <img src="https://i.pinimg.com/736x/98/0f/03/980f03116b6fc42b54afac95ac23904f.jpg" alt="">
+                    <img src="assets/images/logo.png" alt="">
                 </span>
                 <span class="logo-text">Waluya</span>
             </a>
@@ -512,7 +512,7 @@
                 <div class="footer-brand">
                     <a href="#beranda" class="footer-logo">
                         <span class="logo-icon">
-                            <img src="https://i.pinimg.com/736x/98/0f/03/980f03116b6fc42b54afac95ac23904f.jpg" alt="">
+                            <img src="assets/images/logo.png" alt="">
                         </span>
                         <span class="logo-text">Waluya</span>
                     </a>

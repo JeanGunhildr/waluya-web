@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header class="auth-header">
         <a href="index.php" class="auth-logo">
             <span class="auth-logo-icon">
-                <img src="https://i.pinimg.com/736x/98/0f/03/980f03116b6fc42b54afac95ac23904f.jpg" alt="Logo Waluya">
+                <img src="assets/images/logo.png" alt="Logo Waluya">
             </span>
             <div>
                 <span class="auth-logo-title">Waluya</span>
