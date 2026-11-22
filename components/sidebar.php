@@ -45,9 +45,7 @@ $role_info = $role_labels[$current_role] ?? $role_labels['keluarga'];
     <!-- Header Sidebar (Logo & Brand) -->
     <div class="sidebar-brand-header">
         <a href="index.php" class="sidebar-brand">
-            <span class="sidebar-brand-icon">
-                <img src="../assets/images/logo.png" alt="Logo Waluya">
-            </span>
+            <img src="../assets/images/logo.png" alt="Logo Waluya" class="sidebar-brand-logo" width="36" height="36" style="width: 36px; height: 36px; max-width: 36px; max-height: 36px; object-fit: contain; flex-shrink: 0;">
             <div class="sidebar-brand-text">
                 <span class="brand-title">Waluya</span>
                 <span class="brand-role-desc"><?= htmlspecialchars($role_info['title']) ?></span>

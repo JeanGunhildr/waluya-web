@@ -134,9 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Header / Navbar Sederhana -->
     <header class="auth-header">
         <a href="index.php" class="auth-logo">
-            <span class="auth-logo-icon">
-                <img src="assets/images/logo.png" alt="Logo Waluya">
-            </span>
+            <img src="assets/images/logo.png" alt="Logo Waluya" class="auth-logo-img" width="38" height="38" style="width: 38px; height: 38px; max-width: 38px; max-height: 38px; object-fit: contain; flex-shrink: 0;">
             <div>
                 <span class="auth-logo-title">Waluya</span>
                 <span class="auth-logo-sub">Posyandu Lansia</span>

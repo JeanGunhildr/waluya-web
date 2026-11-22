@@ -18,7 +18,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="assets/css/style.css?v=1.3">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime('assets/css/style.css') ?>">
 </head>
 
 <body>
@@ -27,9 +27,7 @@
     <nav class="navbar" id="navbar">
         <div class="container navbar-inner">
             <a href="#beranda" class="navbar-logo">
-                <span class="logo-icon">
-                    <img src="assets/images/logo.png" alt="">
-                </span>
+                <img src="assets/images/logo.png" alt="Logo Waluya" class="navbar-brand-logo" width="34" height="34" style="width: 34px; height: 34px; max-width: 34px; max-height: 34px; object-fit: contain; flex-shrink: 0;">
                 <span class="logo-text">Waluya</span>
             </a>
 
@@ -511,9 +509,7 @@
             <div class="footer-top">
                 <div class="footer-brand">
                     <a href="#beranda" class="footer-logo">
-                        <span class="logo-icon">
-                            <img src="assets/images/logo.png" alt="">
-                        </span>
+                        <img src="assets/images/logo.png" alt="Logo Waluya" class="footer-logo-img" width="34" height="34" style="width: 34px; height: 34px; max-width: 34px; max-height: 34px; object-fit: contain; flex-shrink: 0;">
                         <span class="logo-text">Waluya</span>
                     </a>
                     <p class="footer-brand-desc">
