@@ -1,35 +1,37 @@
 /* ==============================================================================
    WALUYA - AUTHENTICATION STYLESHEET (LOGIN & REGISTER)
-   Tema: Modern Healthcare, Clean Sage Green (#10B981 / #0EA574)
+   Tema: Waluya Showcase Forest Green & Chartreuse Lime (#014C38 / #CAF46A)
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #10B981;
-  --primary-hover: #059669;
-  --primary-dark: #0EA574;
-  --primary-light: #ECFDF5;
-  --primary-surface: #D1FAE5;
+  /* Waluya Showcase Forest Green & Chartreuse Lime Palette */
+  --primary: #014C38;
+  --primary-hover: #092E27;
+  --primary-dark: #092E27;
+  --primary-light: #E8F6EE;
+  --primary-surface: #D4F2E3;
+  --accent-lime: #CAF46A;
   
-  --bg-page: #F8FCF9;
+  --bg-page: #F4FAF6;
   --bg-card: #FFFFFF;
   
-  --text-main: #1A2E24;
-  --text-secondary: #37584A;
-  --text-muted: #64748B;
+  --text-main: #092E27;
+  --text-secondary: #2D5548;
+  --text-muted: #5B7B6E;
   
-  --border-color: #E2E8F0;
-  --border-focus: #10B981;
+  --border-color: #D1EBE1;
+  --border-focus: #014C38;
   
-  --gradient-primary: linear-gradient(135deg, #10B981 0%, #0EA574 100%);
-  --gradient-hero: linear-gradient(160deg, #D1FAE5 0%, #ECFDF5 35%, #F0FDFA 65%, #F8FCF9 100%);
-  --gradient-glow: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
-                   radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.10) 0%, transparent 50%);
+  --gradient-primary: linear-gradient(135deg, #014C38 0%, #007F56 100%);
+  --gradient-hero: linear-gradient(160deg, #E6F7EE 0%, #F0FAF4 35%, #F4FAF6 100%);
+  --gradient-glow: radial-gradient(circle at 10% 20%, rgba(202, 244, 106, 0.2) 0%, transparent 50%),
+                   radial-gradient(circle at 90% 80%, rgba(1, 76, 56, 0.15) 0%, transparent 50%);
   
-  --shadow-sm: 0 1px 3px rgba(13, 74, 52, 0.06);
-  --shadow-md: 0 4px 16px rgba(13, 74, 52, 0.08);
-  --shadow-lg: 0 12px 36px rgba(13, 74, 52, 0.12);
+  --shadow-sm: 0 1px 3px rgba(1, 76, 56, 0.08);
+  --shadow-md: 0 4px 16px rgba(1, 76, 56, 0.10);
+  --shadow-lg: 0 12px 36px rgba(1, 76, 56, 0.14);
   
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -523,15 +525,15 @@ textarea.form-control {
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 14px rgba(1, 76, 56, 0.28);
   transition: all 0.25s ease;
   margin-top: 8px;
 }
 
 .btn-submit:hover {
-  background: linear-gradient(135deg, #16C88F 0%, #10B981 100%);
+  background: linear-gradient(135deg, #006749 0%, #092E27 100%);
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+  box-shadow: 0 6px 18px rgba(1, 76, 56, 0.38);
 }
 
 .btn-submit:active {

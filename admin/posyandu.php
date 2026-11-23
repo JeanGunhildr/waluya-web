@@ -267,17 +267,13 @@ try {
                     <button type="button" class="topbar-mobile-toggle" onclick="toggleSidebar(true)" aria-label="Buka Menu">
                         <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
                     </button>
-                    <h2 class="topbar-page-title">Unit Posyandu Lansia</h2>
+                    <h2 class="topbar-page-title">Panel Admin</h2>
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-date-pill">
                         <i data-lucide="calendar" style="width: 14px; height: 14px; color: var(--primary);"></i>
                         <span><?= date('d M Y') ?></span>
                     </div>
-                    <a href="../logout.php" class="btn btn-logout" title="Keluar">
-                        <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
-                        <span>Keluar</span>
-                    </a>
                 </div>
             </header>
 
@@ -318,7 +314,7 @@ try {
                     </div>
 
                     <div class="kpi-card">
-                        <div class="feature-icon-wrapper" style="background: #ECFDF5; color: #059669;">
+                        <div class="feature-icon-wrapper" style="background: #E8F6EE; color: #014C38;">
                             <i data-lucide="check-circle-2" style="width: 22px; height: 22px;"></i>
                         </div>
                         <div>
@@ -483,7 +479,7 @@ try {
                                                         <input type="hidden" name="id_posyandu" value="<?= $pos['id_posyandu'] ?>">
                                                         <input type="hidden" name="status_baru" value="<?= $pos['status'] === 'aktif' ? 'nonaktif' : 'aktif' ?>">
                                                         <button type="submit" class="btn btn-secondary btn-sm" title="<?= $pos['status'] === 'aktif' ? 'Nonaktifkan Posyandu' : 'Aktifkan Posyandu' ?>">
-                                                            <i data-lucide="<?= $pos['status'] === 'aktif' ? 'power-off' : 'power' ?>" style="width: 13px; height: 13px; color: <?= $pos['status'] === 'aktif' ? '#DC2626' : '#10B981' ?>;"></i>
+                                                            <i data-lucide="<?= $pos['status'] === 'aktif' ? 'power-off' : 'power' ?>" style="width: 13px; height: 13px; color: <?= $pos['status'] === 'aktif' ? '#DC2626' : '#014C38' ?>;"></i>
                                                         </button>
                                                     </form>
 

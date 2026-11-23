@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Stylesheet Khusus Auth Bertema Index -->
-    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/auth.css?v=<?= filemtime('assets/css/auth.css') ?>">
 </head>
 
 <body>
@@ -135,10 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header class="auth-header">
         <a href="index.php" class="auth-logo">
             <img src="assets/images/logo.png" alt="Logo Waluya" class="auth-logo-img" width="38" height="38" style="width: 38px; height: 38px; max-width: 38px; max-height: 38px; object-fit: contain; flex-shrink: 0;">
-            <div>
-                <span class="auth-logo-title">Waluya</span>
-                <span class="auth-logo-sub">Posyandu Lansia</span>
-            </div>
+            <span class="auth-logo-title">Waluya</span>
         </a>
 
         <a href="index.php" class="btn-back-home">

@@ -304,17 +304,13 @@ try {
                     <button type="button" class="topbar-mobile-toggle" onclick="toggleSidebar(true)" aria-label="Buka Menu">
                         <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
                     </button>
-                    <h2 class="topbar-page-title">Riwayat Rekam Medis Lansia (RUD)</h2>
+                    <h2 class="topbar-page-title">Panel Admin</h2>
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-date-pill">
                         <i data-lucide="calendar" style="width: 14px; height: 14px; color: var(--primary);"></i>
                         <span><?= date('d M Y') ?></span>
                     </div>
-                    <a href="../logout.php" class="btn btn-logout" title="Keluar">
-                        <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
-                        <span>Keluar</span>
-                    </a>
                 </div>
             </header>
 
@@ -355,7 +351,7 @@ try {
                     </div>
 
                     <div class="kpi-card">
-                        <div class="feature-icon-wrapper" style="background: #ECFDF5; color: #059669;">
+                        <div class="feature-icon-wrapper" style="background: #E8F6EE; color: #014C38;">
                             <i data-lucide="shield-check" style="width: 22px; height: 22px;"></i>
                         </div>
                         <div>
@@ -921,7 +917,7 @@ try {
                     <div style="border-top: 1px solid var(--border-light); padding-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                         <div>
                             Rujukan Puskesmas: 
-                            <strong style="color: ${data.rujukan_puskesmas === 'Ya' ? '#DC2626' : '#059669'};">
+                            <strong style="color: ${data.rujukan_puskesmas === 'Ya' ? '#DC2626' : '#014C38'};">
                                 ${data.rujukan_puskesmas === 'Ya' ? 'YA, MEMERLUKAN RUJUKAN' : 'TIDAK DIPERLUKAN'}
                             </strong>
                         </div>

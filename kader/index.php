@@ -80,7 +80,7 @@ $next = $agenda[0] ?? null;
 $persen = $st['total'] ? (int)round($st['sudah'] / $st['total'] * 100) : 0;
 
 $page_title   = 'Dashboard Kader';
-$topbar_title = 'Dashboard Kader Posyandu';
+$topbar_title = 'Panel Kader';
 include '../components/kader-layout-top.php';
 ?>
 

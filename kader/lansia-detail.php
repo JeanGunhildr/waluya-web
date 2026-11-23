@@ -36,7 +36,7 @@ $stmt->execute(['id' => $id]);
 $total_periksa = (int)$stmt->fetchColumn();
 
 /** Sparkline SVG sederhana dari deret angka (null dilewati). */
-function sparkline(array $vals, string $color = '#10B981'): string
+function sparkline(array $vals, string $color = '#014C38'): string
 {
     $pts = array_values(array_filter($vals, fn($v) => $v !== null));
     if (count($pts) < 2) {

@@ -207,7 +207,7 @@ try {
                     <button type="button" class="topbar-mobile-toggle" onclick="toggleSidebar(true)" aria-label="Buka Menu">
                         <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
                     </button>
-                    <h2 class="topbar-page-title">Kelola Kader Posyandu (CRUD)</h2>
+                    <h2 class="topbar-page-title">Panel Admin</h2>
                 </div>
 
                 <div class="topbar-right">
@@ -215,10 +215,6 @@ try {
                         <i data-lucide="calendar" style="width: 14px; height: 14px; color: var(--primary);"></i>
                         <span><?= date('d M Y') ?></span>
                     </div>
-                    <a href="../logout.php" class="btn btn-logout" title="Keluar">
-                        <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
-                        <span>Keluar</span>
-                    </a>
                 </div>
             </header>
 

@@ -1,3 +1,45 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Cek apakah user sudah login
+$isLoggedIn = !empty($_SESSION['user_id']) && !empty($_SESSION['role']);
+$dashboardUrl = 'login.php';
+$roleLabel = 'Dashboard';
+
+if ($isLoggedIn) {
+    $role = $_SESSION['role'];
+    if ($role === 'admin') {
+        $dashboardUrl = 'admin/index.php';
+        $roleLabel = 'Panel Admin';
+    } elseif ($role === 'kader') {
+        $dashboardUrl = 'kader/index.php';
+        $roleLabel = 'Panel Kader';
+    } elseif ($role === 'keluarga') {
+        $dashboardUrl = 'keluarga/index.php';
+        $roleLabel = 'Panel Keluarga';
+    }
+}
+
+// Ambil statistik real-time dari database untuk hero section
+$totalLansia = 0;
+$totalPosyanduAktif = 0;
+$totalKader = 0;
+
+try {
+    require_once __DIR__ . '/config/database.php';
+    if (isset($pdo)) {
+        $totalLansia = (int)$pdo->query("SELECT COUNT(*) FROM lansia")->fetchColumn();
+        $totalPosyanduAktif = (int)$pdo->query("SELECT COUNT(*) FROM posyandu WHERE status='aktif'")->fetchColumn();
+        $totalKader = (int)$pdo->query("SELECT COUNT(*) FROM users WHERE role='kader'")->fetchColumn();
+    }
+} catch (Throwable $e) {
+    $totalLansia = 3;
+    $totalPosyanduAktif = 1;
+    $totalKader = 1;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -38,18 +80,32 @@
                 <li><a href="#cara-kerja" class="nav-link">Cara Kerja</a></li>
                 <li><a href="#faq" class="nav-link">FAQ</a></li>
                 <li class="mobile-menu-action">
-                    <a href="login.php" class="btn btn-primary btn-mobile-login">
-                        <i data-lucide="log-in" class="btn-icon"></i>
-                        <span>Masuk Akun</span>
-                    </a>
+                    <?php if ($isLoggedIn): ?>
+                        <a href="<?= $dashboardUrl ?>" class="btn btn-primary btn-mobile-login">
+                            <i data-lucide="layout-dashboard" class="btn-icon"></i>
+                            <span><?= htmlspecialchars($roleLabel) ?></span>
+                        </a>
+                    <?php else: ?>
+                        <a href="login.php" class="btn btn-primary btn-mobile-login">
+                            <i data-lucide="log-in" class="btn-icon"></i>
+                            <span>Masuk Akun</span>
+                        </a>
+                    <?php endif; ?>
                 </li>
             </ul>
 
             <div class="navbar-actions">
-                <a href="login.php" class="btn btn-login" aria-label="Login Waluya">
-                    <i data-lucide="log-in" class="btn-icon"></i>
-                    <span>Login</span>
-                </a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="<?= $dashboardUrl ?>" class="btn btn-login" aria-label="Buka <?= htmlspecialchars($roleLabel) ?>">
+                        <i data-lucide="layout-dashboard" class="btn-icon"></i>
+                        <span>Dashboard</span>
+                    </a>
+                <?php else: ?>
+                    <a href="login.php" class="btn btn-login" aria-label="Login Waluya">
+                        <i data-lucide="log-in" class="btn-icon"></i>
+                        <span>Login</span>
+                    </a>
+                <?php endif; ?>
             </div>
 
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
@@ -80,28 +136,35 @@
                         terhubung dengan keluarga dan kader Posyandu.
                     </p>
                     <div class="hero-buttons">
-                        <a href="register.php" class="btn btn-primary">
-                            <i data-lucide="arrow-right" class="btn-icon"></i>
-                            Mulai Sekarang
-                        </a>
-                        <a href="login.php" class="btn btn-outline">
-                            <i data-lucide="log-in" class="btn-icon"></i>
-                            Masuk Akun
-                        </a>
+                        <?php if ($isLoggedIn): ?>
+                            <a href="<?= $dashboardUrl ?>" class="btn btn-primary">
+                                <i data-lucide="layout-dashboard" class="btn-icon"></i>
+                                Buka <?= htmlspecialchars($roleLabel) ?>
+                            </a>
+                        <?php else: ?>
+                            <a href="register.php" class="btn btn-primary">
+                                <i data-lucide="arrow-right" class="btn-icon"></i>
+                                Mulai Sekarang
+                            </a>
+                            <a href="login.php" class="btn btn-outline">
+                                <i data-lucide="log-in" class="btn-icon"></i>
+                                Masuk Akun
+                            </a>
+                        <?php endif; ?>
                     </div>
                     <div class="hero-stats">
                         <div class="stat-item">
-                            <span class="stat-number">500+</span>
+                            <span class="stat-number"><?= number_format($totalLansia) ?>+</span>
                             <span class="stat-label">Lansia Terpantau</span>
                         </div>
                         <div class="stat-divider"></div>
                         <div class="stat-item">
-                            <span class="stat-number">50+</span>
+                            <span class="stat-number"><?= number_format($totalPosyanduAktif) ?>+</span>
                             <span class="stat-label">Posyandu Aktif</span>
                         </div>
                         <div class="stat-divider"></div>
                         <div class="stat-item">
-                            <span class="stat-number">200+</span>
+                            <span class="stat-number"><?= number_format($totalKader) ?>+</span>
                             <span class="stat-label">Kader Terlatih</span>
                         </div>
                     </div>
@@ -300,80 +363,61 @@
                 </p>
             </div>
 
-            <div class="process-flow fade-in-up">
-                <div class="process-track-line"></div>
-
-                <div class="process-step">
-                    <div class="process-node">
-                        <span class="node-number">01</span>
+            <div class="process-grid fade-in-up">
+                <!-- Langkah 1 -->
+                <div class="process-card">
+                    <div class="process-number-badge">01</div>
+                    <div class="process-title-row">
+                        <div class="process-icon-wrapper">
+                            <i data-lucide="user-plus" class="process-icon"></i>
+                        </div>
+                        <h3 class="process-card-title">Buat Akun Keluarga</h3>
                     </div>
-                    <div class="process-icon-box">
-                        <i data-lucide="user-plus" class="process-icon"></i>
-                    </div>
-                    <div class="process-info">
-                        <span class="process-step-tag">Langkah 1</span>
-                        <h3 class="process-title">Buat Akun Keluarga</h3>
-                        <p class="process-desc">
-                            Daftarkan diri Anda sebagai anggota keluarga secara cepat untuk mulai menggunakan platform.
-                        </p>
-                    </div>
-                    <div class="process-connector">
-                        <i data-lucide="arrow-right" class="connector-arrow"></i>
-                    </div>
+                    <p class="process-card-desc">
+                        Daftarkan diri Anda sebagai anggota keluarga untuk mulai mengakses layanan pemantauan lansia secara mandiri.
+                    </p>
                 </div>
 
-                <div class="process-step">
-                    <div class="process-node">
-                        <span class="node-number">02</span>
+                <!-- Langkah 2 -->
+                <div class="process-card">
+                    <div class="process-number-badge">02</div>
+                    <div class="process-title-row">
+                        <div class="process-icon-wrapper">
+                            <i data-lucide="heart-handshake" class="process-icon"></i>
+                        </div>
+                        <h3 class="process-card-title">Daftarkan Lansia</h3>
                     </div>
-                    <div class="process-icon-box">
-                        <i data-lucide="heart-handshake" class="process-icon"></i>
-                    </div>
-                    <div class="process-info">
-                        <span class="process-step-tag">Langkah 2</span>
-                        <h3 class="process-title">Daftarkan Lansia</h3>
-                        <p class="process-desc">
-                            Masukkan data profil dan kondisi awal anggota keluarga lansia yang ingin dipantau.
-                        </p>
-                    </div>
-                    <div class="process-connector">
-                        <i data-lucide="arrow-right" class="connector-arrow"></i>
-                    </div>
+                    <p class="process-card-desc">
+                        Masukkan data profil, riwayat penyakit, dan kondisi awal anggota keluarga lansia yang ingin dipantau.
+                    </p>
                 </div>
 
-                <div class="process-step">
-                    <div class="process-node">
-                        <span class="node-number">03</span>
+                <!-- Langkah 3 -->
+                <div class="process-card">
+                    <div class="process-number-badge">03</div>
+                    <div class="process-title-row">
+                        <div class="process-icon-wrapper">
+                            <i data-lucide="badge-check" class="process-icon"></i>
+                        </div>
+                        <h3 class="process-card-title">Verifikasi Kader</h3>
                     </div>
-                    <div class="process-icon-box">
-                        <i data-lucide="badge-check" class="process-icon"></i>
-                    </div>
-                    <div class="process-info">
-                        <span class="process-step-tag">Langkah 3</span>
-                        <h3 class="process-title">Verifikasi Kader</h3>
-                        <p class="process-desc">
-                            Kader Posyandu Lansia memverifikasi data dan menghubungkan jadwal pemeriksaan rutin.
-                        </p>
-                    </div>
-                    <div class="process-connector">
-                        <i data-lucide="arrow-right" class="connector-arrow"></i>
-                    </div>
+                    <p class="process-card-desc">
+                        Kader Posyandu memverifikasi data pendaftaran dan mengintegrasikan jadwal pemeriksaan rutin berkala.
+                    </p>
                 </div>
 
-                <div class="process-step">
-                    <div class="process-node">
-                        <span class="node-number">04</span>
+                <!-- Langkah 4 -->
+                <div class="process-card">
+                    <div class="process-number-badge">04</div>
+                    <div class="process-title-row">
+                        <div class="process-icon-wrapper">
+                            <i data-lucide="activity" class="process-icon"></i>
+                        </div>
+                        <h3 class="process-card-title">Pantau Kesehatan</h3>
                     </div>
-                    <div class="process-icon-box">
-                        <i data-lucide="monitor-check" class="process-icon"></i>
-                    </div>
-                    <div class="process-info">
-                        <span class="process-step-tag">Langkah 4</span>
-                        <h3 class="process-title">Pantau Kesehatan</h3>
-                        <p class="process-desc">
-                            Pantau riwayat tensi, gula darah, berat badan, dan grafik kesehatan secara real-time.
-                        </p>
-                    </div>
+                    <p class="process-card-desc">
+                        Pantau riwayat tensi, gula darah, berat badan, serta status risiko kesehatan lansia secara teratur dan real-time.
+                    </p>
                 </div>
             </div>
         </div>
@@ -527,7 +571,11 @@
                         <li><a href="#layanan">Layanan</a></li>
                         <li><a href="#cara-kerja">Cara Kerja</a></li>
                         <li><a href="#faq">FAQ</a></li>
-                        <li><a href="login.php">Login</a></li>
+                        <?php if ($isLoggedIn): ?>
+                            <li><a href="<?= $dashboardUrl ?>">Dashboard</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">Login</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
 

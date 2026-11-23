@@ -293,17 +293,13 @@ try {
                     <button type="button" class="topbar-mobile-toggle" onclick="toggleSidebar(true)" aria-label="Buka Menu">
                         <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
                     </button>
-                    <h2 class="topbar-page-title">Jadwal Kegiatan Posyandu</h2>
+                    <h2 class="topbar-page-title">Panel Admin</h2>
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-date-pill">
                         <i data-lucide="calendar" style="width: 14px; height: 14px; color: var(--primary);"></i>
                         <span><?= date('d M Y') ?></span>
                     </div>
-                    <a href="../logout.php" class="btn btn-logout" title="Keluar">
-                        <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
-                        <span>Keluar</span>
-                    </a>
                 </div>
             </header>
 
@@ -544,7 +540,7 @@ try {
                                                         <input type="hidden" name="id_jadwal" value="<?= $j['id_jadwal'] ?>">
                                                         <input type="hidden" name="status_baru" value="<?= $j['status'] === 'terjadwal' ? 'selesai' : 'terjadwal' ?>">
                                                         <button type="submit" class="btn btn-secondary btn-sm" title="<?= $j['status'] === 'terjadwal' ? 'Tandai Kegiatan Selesai' : 'Kembalikan ke Terjadwal' ?>">
-                                                            <i data-lucide="<?= $j['status'] === 'terjadwal' ? 'check-circle' : 'rotate-ccw' ?>" style="width: 13px; height: 13px; color: <?= $j['status'] === 'terjadwal' ? '#10B981' : '#64748B' ?>;"></i>
+                                                            <i data-lucide="<?= $j['status'] === 'terjadwal' ? 'check-circle' : 'rotate-ccw' ?>" style="width: 13px; height: 13px; color: <?= $j['status'] === 'terjadwal' ? '#014C38' : '#64748B' ?>;"></i>
                                                         </button>
                                                     </form>
 
